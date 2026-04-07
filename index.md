@@ -1,3 +1,5 @@
+Group 7: Chan Mu Jie, Chelsea Gan, Gan Xin Yee, Zahra Prilia Kinanti
+
 ## 1. Context
 In Singapore, proximity to “good” primary schools is widely believed to influence housing choices due to the distance-based priority system in Primary 1 (P1) admissions, where living closer increases the likelihood of securing admission particularly in Phases 2B and 2C. This leads to strong market perceptions that housing near such schools command price premiums. 
 
