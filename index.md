@@ -36,7 +36,7 @@ Finally, it is assumed that the relationships observed in historical data are st
 ### 3.1. Technical Assumptions
 A key technical assumption in this study is the definition of “good” primary schools. As direct measures of school quality (e.g. PSLE outcomes) are not publicly available, school quality is proxied using observable indicators.
 
-Two main types of proxies are used. First, demand-based proxies are derived from oversubscription rates in the P1 registration exercise, based on the assumption that schools with higher application pressure are more desirable to parents. These are operationalised through features such as average demand percentile, demand stability, and supply-adjusted demand, which are combined into a composite score. Second, institutional proxies, namely Special Assistance Plan (SAP) schools and schools offering the Gifted Education Programme (GEP), indicate established academic reputation and programme quality. Finally, a school is classified as “good” if it has a $\text{composite score} ≥ \text{threshold} \,$ ($\text{threshold} = \text{mean} + 1 \, \text{standard deviation}$) **and** satisfies at least one institutional criterion (SAP or GEP).
+Two main types of proxies are used. First, demand-based proxies are derived from oversubscription rates in the P1 registration exercise, based on the assumption that schools with higher application pressure are more desirable to parents. These are operationalised through features such as average demand percentile, demand stability, and supply-adjusted demand, which are combined into a composite score. Second, institutional proxies, namely Special Assistance Plan (SAP) schools and schools offering the Gifted Education Programme (GEP), indicate established academic reputation and programme quality. Finally, a school is classified as “good” if it has a composite score ≥ threshold (threshold = mean + 1 standard deviation) **and** satisfies at least one institutional criterion (SAP or GEP).
 
 School desirability is constructed using data from 2009 onwards and applied across the resale dataset, implicitly assuming that school reputation is relatively stable over time. This is reasonable given the persistence of institutional characteristics and is reinforced by the use of multi-year averages, but may introduce measure error for earlier transactions.
 
@@ -97,13 +97,13 @@ Several models were implemented to balance interpretability and predictive perfo
 
 Ridge and Lasso regression were included to address multicollinearity and improve coefficient stability. Lasso additionally performs feature selection, which is useful in a setting with a relatively large number of engineered and one-hot encoded predictors. To capture effects that may not be well represented in linear models, Random Forest and XGBoost were also evaluated. A baseline model predicting the mean training-set resale price was used as a benchmark to assess the predictive gains of more complex models.
 
-Model performance was evaluated using Root Mean Squared Error ($\text{RMSE}$) and $R^2$. $\text{RMSE}$ measures prediction error in Singapore dollars, making it directly interpretable for the housing market context while penalising large prediction errors more heavily. $R^2$ was used as a complementary measure of explanatory power. These metrics assess both practical predictive accuracy and overall model fit.
+Model performance was evaluated using Root Mean Squared Error (RMSE) and R². RMSE measures prediction error in Singapore dollars, making it directly interpretable for the housing market context while penalising large prediction errors more heavily. R² was used as a complementary measure of explanatory power. These metrics assess both practical predictive accuracy and overall model fit.
 
 For OLS, multicollinearity was assessed using Variance Inflation Factors (VIF), removing highly collinear variables to improve coefficient interpretability and stability. Ridge and Lasso hyperparameters were selected through cross-validation conducted on the training set only. Random Forest and XGBoost were tuned more lightly to balance predictive performance with computational efficiency. Comparing results across all models also provides a robustness check on whether the estimated importance of school proximity is consistent across different modelling assumptions.
 
 ## 4. Findings
 ### 4.1. Results
-Figure 1 summarises the performance of all models evaluated, using $\text{RMSE}$ and $R^2$ on the test set.
+Figure 1 summarises the performance of all models evaluated, using RMSE and R² on the test set.
 
 ![](figures/model_comparison.png)
 
@@ -111,9 +111,9 @@ Figure 1 summarises the performance of all models evaluated, using $\text{RMSE}$
 <i>Figure 1: Model evaluation comparison</i>
 </p>
 
-All models outperform the baseline, whose high $\text{RMSE}$ (\$376933) and negative $R^2$ (-2.41) reflect strong long-term price appreciation, making the historical mean a poor predictor.
+All models outperform the baseline, whose high RMSE (\$376933) and negative R² (-2.41) reflect strong long-term price appreciation, making the historical mean a poor predictor.
 
-Among linear models, OLS, Ridge, and Lasso achieve nearly identical performance ($\text{RMSE}$ \~\$140858, $R^2$ ~0.524). The minimal regularisation selected and the fact that Lasso retains all features indicate that the OLS model is well-specified and not overfitting.
+Among linear models, OLS, Ridge, and Lasso achieve nearly identical performance (RMSE ~\$140858, R² ~0.524). The minimal regularisation selected and the fact that Lasso retains all features indicate that the OLS model is well-specified and not overfitting.
 
 As this project focuses on estimating the effect of school proximity, the OLS hedonic pricing model is used as the primary model due to its interpretability. Table 2 shows the estimated effect, controlling for flat size, storey level, remaining lease, town, MRT distance, hawker distance, and flat type.
 
@@ -128,7 +128,7 @@ As this project focuses on estimating the effect of school proximity, the OLS he
 
 Each additional good primary school within 1–2km is associated with a statistically significant price premium of \$1324, holding all other factors constant. These results are consistent across all linear models (within 3% variation), indicating that the findings are not sensitive to model specification or multicollinearity.
 
-Predictive models such as Random Forest achieve higher accuracy ($\text{RMSE}$ \$79519, $R^2$ 0.848), but are not used for effect estimation due to their lack of interpretability. Instead, they serve as robustness checks. Notably, both school proximity variables rank among the top 15 most important features (out of 64) in the Random Forest model, providing independent confirmation that school proximity is a key driver of resale prices even in non-linear settings.
+Predictive models such as Random Forest achieve higher accuracy (RMSE \$79519, R² 0.848), but are not used for effect estimation due to their lack of interpretability. Instead, they serve as robustness checks. Notably, both school proximity variables rank among the top 15 most important features (out of 64) in the Random Forest model, providing independent confirmation that school proximity is a key driver of resale prices even in non-linear settings.
 
 ### 4.2. Discussion
 #### 4.2.1. Business Implications
@@ -140,7 +140,7 @@ For MND, this suggests that housing price effects are driven more by neighbourho
 
 
 #### 4.2.2. Model Interpretability
-A key tension in this project is between interpretability and predictive accuracy. While OLS achieves moderate performance ($R^2$ = 0.524), it provides fully interpretable coefficients with clear dollar effects and statistical significance. In contrast, Random Forest achieves higher accuracy ($R^2$ = 0.848) but does not yield interpretable estimates of school proximity effects.
+A key tension in this project is between interpretability and predictive accuracy. While OLS achieves moderate performance (R² = 0.524), it provides fully interpretable coefficients with clear dollar effects and statistical significance. In contrast, Random Forest achieves higher accuracy (R² = 0.848) but does not yield interpretable estimates of school proximity effects.
 
 As the objective is policy-focused effect estimation rather than prediction, OLS is used as the primary model, with Random Forest retained only as a complementary robustness check.The OLS model can provide transparent, defensible estimates of how school access impacts housing prices, which is critical for policy evaluation and planning decisions.
 
