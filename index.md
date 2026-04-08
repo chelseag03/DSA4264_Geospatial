@@ -1,4 +1,4 @@
-Group 7: Chan Mu Jie, Chelsea Gan, Gan Xin Yee, Zahra Prilia Kinanti
+Chan Mu Jie, Chelsea Gan, Gan Xin Yee, Zahra Prilia Kinanti
 
 ## 1. Context
 In Singapore, proximity to “good” primary schools is widely believed to influence housing choices due to the distance-based priority system in Primary 1 (P1) admissions, where living closer increases the likelihood of securing admission particularly in Phases 2B and 2C. This leads to strong market perceptions that housing near such schools command price premiums. 
@@ -29,17 +29,17 @@ It is assumed that proximity to primary schools is a significant factor influenc
 
 Chosen datasets are also assumed to be sufficiently representative of the market. Geographic distance serves as a reasonable approximation of accessibility, despite not fully capturing factors such as walking routes, transport connectivity, or physical barriers.
 
-Finally, it is assumed that the relationships observed in historical data are stable and generalisable, providing meaningful insights for current housing decisions.
+Finally, it is assumed that relationships observed in historical data are stable and generalisable to current housing decisions.
 
 ## 3. Methodology
 ### 3.1. Technical Assumptions
-A key technical assumption in this study is the definition of “good” primary schools. As direct measures of school quality (e.g. PSLE outcomes) are not publicly available, school quality is proxied using observable indicators.
+A key technical assumption in this study is the definition of “good” primary schools. Direct measures of school quality are not publicly available, so proxy indicators are employed.
 
-Two main types of proxies are used. First, demand-based proxies are derived from oversubscription rates in the P1 registration exercise, based on the assumption that schools with higher application pressure are more desirable to parents. These are operationalised through features such as average demand percentile, demand stability, and supply-adjusted demand, which are combined into a composite score. Second, institutional proxies, namely Special Assistance Plan (SAP) schools and schools offering the Gifted Education Programme (GEP), indicate established academic reputation and programme quality. Finally, a school is classified as “good” if it has a composite score ≥ threshold (threshold = mean + 1 standard deviation) **and** satisfies at least one institutional criterion (SAP or GEP).
+Two main types are used. First, demand-based proxies are derived from oversubscription rates in the P1 registration exercise, based on the assumption that schools with higher application pressure are more desirable to parents. These are operationalised through features such as average demand percentile, demand stability, and supply-adjusted demand, which are combined into a composite score. Second, institutional proxies, namely Special Assistance Plan (SAP) schools and schools offering the Gifted Education Programme (GEP), indicate established academic reputation and programme quality. Finally, a school is classified as “good” if it has a composite score ≥ threshold (threshold = mean + 1 standard deviation) **and** satisfies at least one institutional criterion (SAP or GEP).
 
 School desirability is constructed using data from 2009 onwards and applied across the resale dataset, implicitly assuming that school reputation is relatively stable over time. This is reasonable given the persistence of institutional characteristics and is reinforced by the use of multi-year averages, but may introduce measure error for earlier transactions.
 
-From a spatial perspective, it is assumed that all HDB blocks have access to a bus stop within a short walking distance. Thus, bus accessibility is excluded as a variable due to limited variation. Amenity locations are represented as point coordinates rather than full polygons, as relative distance is the primary concern. MRT opening year data is sourced from an unofficial dataset but its reliability is sufficient for preprocessing use.
+HDB block polygons are used as proxies for flat-level spatial position, assuming minimal variation in location within a block. It is assumed that all HDB blocks have access to a bus stop within a short walking distance. Thus, bus accessibility is excluded as a variable due to limited variation. Amenity locations are represented as point coordinates rather than full polygons, as relative distance is the primary concern. MRT opening year data is sourced from an unofficial dataset but its reliability is sufficient for preprocessing use.
 
 Finally, the key hypothesis is that proximity to “good” primary schools has a positive effect on HDB resale prices, with stronger effects expected for closer distance bands.
 
@@ -116,40 +116,11 @@ Among linear models, OLS, Ridge, and Lasso achieve nearly identical performance 
 
 As this project focuses on estimating the effect of school proximity, the OLS hedonic pricing model is used as the primary model due to its interpretability. Table 2 shows the estimated effect, controlling for flat size, storey level, remaining lease, town, MRT distance, hawker distance, and flat type.
 
-<div align="center">
-  
-| Distance Band | Coefficient  | p-value     | 95% CI                 | Interpretation                |
-|---------------|--------------|-------------|------------------------|-------------------------------|
-| <1km          | -$125        | 0.596       | [-\$588, $338]         | Not statistically significant |
-| 1–2km         | +$1,324      | <0.001 ***  | [\$1,012, $1,637]      | Highly significant            |
+| Distance Band | Coefficient | p-value    | 95% CI           | Interpretation                  |
+|---------------|-------------|------------|------------------|---------------------------------|
+| <1km          | -$125       | 0.596      | [-$588, $338]    | Not statistically significant   |
+| 1–2km         | +$1,324     | <0.001 *** | [$1,012, $1,637] | Highly significant              |
 
-</div>
-
-<div align="center">
-<table>
-  <tr>
-    <th>Distance Band</th>
-    <th>Coefficient</th>
-    <th>p-value</th>
-    <th>95% CI</th>
-    <th>Interpretation</th>
-  </tr>
-  <tr>
-    <td>&lt;1km</td>
-    <td>-$125</td>
-    <td>0.596</td>
-    <td>[-$588, $338]</td>
-    <td>Not statistically significant</td>
-  </tr>
-  <tr>
-    <td>1–2km</td>
-    <td>+$1,324</td>
-    <td>&lt;0.001 ***</td>
-    <td>[$1,012, $1,637]</td>
-    <td>Highly significant</td>
-  </tr>
-</table>
-</div>
 
 <p align="center">
 <i>
