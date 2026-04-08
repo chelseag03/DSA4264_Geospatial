@@ -1,5 +1,5 @@
 ## Feature Engineering
-
+# Run this script to get no. of good schools within each distance band category (<1km, 1-2km, >2km)
 # =========================
 # Load libraries
 # =========================
