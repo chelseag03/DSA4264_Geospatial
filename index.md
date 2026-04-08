@@ -125,6 +125,32 @@ As this project focuses on estimating the effect of school proximity, the OLS he
 
 </div>
 
+<div align="center">
+<table>
+  <tr>
+    <th>Distance Band</th>
+    <th>Coefficient</th>
+    <th>p-value</th>
+    <th>95% CI</th>
+    <th>Interpretation</th>
+  </tr>
+  <tr>
+    <td>&lt;1km</td>
+    <td>-$125</td>
+    <td>0.596</td>
+    <td>[-$588, $338]</td>
+    <td>Not statistically significant</td>
+  </tr>
+  <tr>
+    <td>1–2km</td>
+    <td>+$1,324</td>
+    <td>&lt;0.001 ***</td>
+    <td>[$1,012, $1,637]</td>
+    <td>Highly significant</td>
+  </tr>
+</table>
+</div>
+
 <p align="center">
 <i>
 Table 2: Effect of school proximity. 
