@@ -98,7 +98,7 @@ Ridge and Lasso regression were included to address multicollinearity and improv
 
 Model performance was evaluated using Root Mean Squared Error (RMSE) and R². RMSE measures prediction error in Singapore dollars, making it directly interpretable for the housing market context while penalising large prediction errors more heavily. R² was used as a complementary measure of explanatory power. These metrics assess both practical predictive accuracy and overall model fit.
 
-For OLS, multicollinearity was assessed using Variance Inflation Factors (VIF), removing highly collinear variables to improve coefficient interpretability and stability. Ridge and Lasso hyperparameters were selected through cross-validation conducted on the training set only. Random Forest and XGBoost were tuned more lightly to balance predictive performance with computational efficiency. Comparing results across all models also provides a robustness check on whether the estimated importance of school proximity is consistent across different modelling assumptions.
+For OLS, multicollinearity was assessed using Variance Inflation Factors (VIF), removing highly collinear variables to improve coefficient interpretability and stability. `good_sch_gt_2km` (VIF = 53,489) and `lease_commence_date` were excluded due to near-perfect collinearity; `good_sch_lt_1km` was retained but statistically insignificant. Ridge and Lasso hyperparameters were selected through cross-validation conducted on the training set only. Random Forest and XGBoost were tuned more lightly to balance predictive performance with computational efficiency. Comparing results across all models also provides a robustness check on whether the estimated importance of school proximity is consistent across different modelling assumptions.
 
 ## 4. Findings
 ### 4.1. Results
@@ -110,30 +110,36 @@ Figure 1 summarises the performance of all models evaluated, using RMSE and R² 
 <i>Figure 1: Model evaluation comparison</i>
 </p>
 
-All models outperform the baseline, whose high RMSE (\$376933) and negative R² (-2.41) reflect strong long-term price appreciation, making the historical mean a poor predictor.
+All models outperform the baseline, whose high RMSE (\$376,933) and negative R² (-2.41) reflect strong long-term price appreciation, making the historical mean a poor predictor.
 
-Among linear models, OLS, Ridge, and Lasso achieve nearly identical performance (RMSE ~\$140858, R² ~0.524). The minimal regularisation selected and the fact that Lasso retains all features indicate that the OLS model is well-specified and not overfitting.
+Among linear models, OLS, Ridge, and Lasso achieve nearly identical performance (RMSE ~\$140,858, R² ~0.524). The minimal regularisation selected and the fact that Lasso retains all features indicate that the OLS model is well-specified and not overfitting.
 
 As this project focuses on estimating the effect of school proximity, the OLS hedonic pricing model is used as the primary model due to its interpretability. Table 2 shows the estimated effect, controlling for flat size, storey level, remaining lease, town, MRT distance, hawker distance, and flat type.
 
 <div align="center">
-| Distance Band | Coefficient | p-value     | 95% CI              | Interpretation                 |
-|---------------|-------------|-------------|---------------------|--------------------------------|
-| <1km          | -$125       | 0.596       | [-\$588, $338]       | Not statistically significant |
-| 1–2km         | +$1324      | <0.001 ***  | [\$1012, $1637]      | Highly significant            |
+  
+| Distance Band | Coefficient  | p-value     | 95% CI                 | Interpretation                |
+|---------------|--------------|-------------|------------------------|-------------------------------|
+| <1km          | -$125        | 0.596       | [-\$588, $338]         | Not statistically significant |
+| 1–2km         | +$1,324      | <0.001 ***  | [\$1,012, $1,637]      | Highly significant            |
+
 </div>
 
 <p align="center">
-<i>Table 2: Effect of school proximity</i>
+<i>
+Table 2: Effect of school proximity. 
+<code>good_sch_gt_2km</code> was excluded due to high VIF (53,489). 
+<code>good_sch_lt_1km</code> was retained but is not statistically significant.
+</i>
 </p>
 
-Each additional good primary school within 1–2km is associated with a statistically significant price premium of \$1324, holding all other factors constant. These results are consistent across all linear models (within 3% variation), indicating that the findings are not sensitive to model specification or multicollinearity.
+Each additional good primary school within 1–2km is associated with a statistically significant price premium of \$1,324, holding all other factors constant. These results are consistent across all linear models (within 3% variation), indicating that the findings are not sensitive to model specification or multicollinearity.
 
-Predictive models such as Random Forest achieve higher accuracy (RMSE \$79519, R² 0.848), but are not used for effect estimation due to their lack of interpretability. Instead, they serve as robustness checks. Notably, both school proximity variables rank among the top 15 most important features (out of 64) in the Random Forest model, providing independent confirmation that school proximity is a key driver of resale prices even in non-linear settings.
+Predictive models such as Random Forest achieve higher accuracy (RMSE \$79,519, R² 0.848), but are not used for effect estimation due to their lack of interpretability. Instead, they serve as robustness checks. Notably, both school proximity variables rank among the top 15 most important features (out of 64) in the Random Forest model, providing independent confirmation that school proximity is a key driver of resale prices even in non-linear settings.
 
 ### 4.2. Discussion
 #### 4.2.1. Business Implications
-The key finding is that the price premiums concentrate in the 1–2km distance band, rather than the sub-1km band. As mentioned in section 4.1, each additional good primary school within 1–2km adds \$1324, holding all other characteristics constant. This implies that a flat near three good schools in this band is estimated to command ~\$3972 more than an otherwise identical flat. On the other hand, the effect within 1km is not statistically significant.
+The key finding is that the price premiums concentrate in the 1–2km distance band, rather than the sub-1km band. As mentioned in section 4.1, each additional good primary school within 1–2km adds \$1,324, holding all other characteristics constant. This implies that a flat near three good schools in this band is estimated to command ~\$3,972 more than an otherwise identical flat. On the other hand, the effect within 1km is not statistically significant.
 
 The non-significance of the <1km band challenges the common assumption that being closest to a good school yields the highest housing premium. One explanation is that much of the price premium is already captured by town-level factors, since good schools tend to be located in mature or higher-value areas, and these broader location advantages are absorbed by the town fixed effects in the model. At the same time, flats located immediately adjacent to schools may face practical disamenities, such as traffic congestion and noise during peak hours, which can offset any additional benefit from proximity. The 1–2km band represents the sweet spot, being close enough to qualify for Phase 2B/2C distance priority while avoiding these disamenities.
 
@@ -153,7 +159,9 @@ Several sources of bias should be acknowledged:
 
 (ii) The definition of “good school,” based on oversubscription and SAP/GEP status, may not fully reflect buyer perceptions, potentially affecting the estimated premium.
 
-(iii) The Durbin-Watson statistic (0.294) indicates positive autocorrelation, implying standard errors may be slightly underestimated.
+(iii) The gap between training R² (0.842) and test R² (0.524) suggests the model does not fully generalise to 2024–2025 transactions. Retraining on more recent data is advised before operational deployment.
+
+(iv) The Durbin-Watson statistic (0.294) indicates positive autocorrelation, meaning standard errors in Table 2 are likely underestimated and confidence intervals should be interpreted with caution. Applying HAC/Newey-West standard errors in future iterations would produce more reliable inference.
 
 Overall, the estimated school premium should be interpreted as indicative rather than strictly causal, and used alongside domain knowledge for policy decisions. There are also fairness concerns: applying such insights may reinforce existing price disparities, creating a feedback loop between school reputation and housing demand.
 
@@ -169,4 +177,4 @@ Additionally, both models should be retrained periodically as new transaction an
 Future improvements include reducing omitted variable bias and strengthening data reliability. Incorporating household-level data (e.g. income, demographics) would improve estimation accuracy. The MRT opening year data and current school quality proxy relies on data from secondary sources; a more robust pipeline using official government data would improve reliability and maintainability.
 
 #### 4.3.3. Further Experimentation
-Several extensions were not pursued due to time constraints but would be valuable in future work. A model trained only on recent transactions (2015–2025) may generalise better to current market conditions, potentially reducing the train-test $R^2$ gap observed between training (0.842) and test (0.524) performance. Spatial fixed effects at the HDB block or postal code level, rather than the town level currently used, would provide finer-grained location control and may sharpen the estimated school effect. Finally, incorporating temporal interaction terms to examine whether the school premium has grown over time as P1 competition has intensified would provide richer policy insights into the evolving dynamics of the school-housing relationship.
+Several extensions were not pursued due to time constraints but would be valuable in future work. A model trained only on recent transactions (2015–2025) may generalise better to current market conditions, potentially reducing the train-test R² gap observed between training (0.842) and test (0.524) performance. Spatial fixed effects at the HDB block or postal code level, rather than the town level currently used, would provide finer-grained location control and may sharpen the estimated school effect. Applying HAC standard errors would also produce more robust inference under the observed autocorrelation.  Finally, incorporating temporal interaction terms to examine whether the school premium has grown over time as P1 competition has intensified would provide richer policy insights into the evolving dynamics of the school-housing relationship.
