@@ -33,9 +33,9 @@ Make sure the necessary raw data files are in the same working directory before 
 - `LTAMRTStationExitGEOJSON.geojson`
 - `mrt_lrt_stations_2025-01-14.csv`
 - `HawkerCentresGEOJSON.geojson`
-- `HDBExistingBuilding.geojson`
-- `SLACadastralLandParcel.geojson`
-- `Generalinformationofschools.csv`
+- `HDBExistingBuilding.geojson` - 
+- `SLACadastralLandParcel.geojson` - download from [data.gov.sg](https://data.gov.sg/datasets/d_e7395d743076a2bcc487b0d12b9bf33b/view)
+- `Generalinformationofschools.csv` - download from [data.gov.sg](https://data.gov.sg/datasets/d_688b934f82c1059ed0a6993d2a829089/view?dataExplorerPage=7)
 
 ## How to Run
 Run each script one at a time:
