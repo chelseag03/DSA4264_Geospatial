@@ -9,3 +9,5 @@ scikit-learn
 matplotlib
 contextily
 openpyxl
+xgboost
+seaborn
