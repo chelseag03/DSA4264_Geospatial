@@ -104,7 +104,7 @@ For OLS, multicollinearity was assessed using Variance Inflation Factors (VIF), 
 ### 4.1. Results
 Figure 1 summarises the performance of all models evaluated, using RMSE and R² on the test set.
 
-![](figures/model_comparison.jpg)
+![](figures/model_comparison.png)
 
 <p align="center">
 <i>Figure 1: Model evaluation comparison</i>
