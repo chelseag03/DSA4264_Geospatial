@@ -248,6 +248,8 @@ school_summary["stability_raw"] = -school_summary["demand_percentile_sd"]
 As no prominent primary school has permanent relocation from 2009-2025,
 the info from the website which is from Sep 2025 to Dec 2025 is accurate
 accross the entire timeframe.
+
+Data source: https://data.gov.sg/datasets/d_688b934f82c1059ed0a6993d2a829089/view
 """
 # load data
 moe_schools = pd.read_csv("Generalinformationofschools.csv")
