@@ -23,8 +23,14 @@ Please run the scripts in the following order:
    Main output:
    - `hdb_with_school_features.csv`
 
-4. `<model_script>.py`  
-   Runs the final modelling pipeline using the engineered dataset.
+4. `model_building.py`  
+   Runs the final modelling pipeline using the engineered dataset from `dist_bands.py`.
+   Builds and evaluates OLS (hedonic pricing), Ridge, Lasso, Random Forest, and XGBoost models to estimate the effect of good primary school proximity on HDB resale prices.
+   Main output:
+   - `model_comparison.png`
+   - `school_effect_ols.png`
+   - `actual_vs_predicted_rf.png`
+   - `feature_importance_rf.png`
 
 ## Required Input Files
 
@@ -65,4 +71,4 @@ Run each script one at a time:
 python good_pri_sch_data.py
 python hdb_amenity_data_cleaning.py
 python dist_bands.py
-python <model_script>.py
+python model_building.py
